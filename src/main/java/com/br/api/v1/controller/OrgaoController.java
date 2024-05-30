@@ -9,7 +9,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.br.api.v1.mapper.OrgaoModelMapper;
 import com.br.api.v1.mapper.OrgaoModelMapeerBack;
 import com.br.api.v1.model.OrgaoModel;
@@ -17,7 +16,6 @@ import com.br.api.v1.model.input.OrgaoActiveModelInput;
 import com.br.api.v1.model.input.OrgaoModelInput;
 import com.br.domain.model.Endereco;
 import com.br.domain.model.Orgao;
-import com.br.domain.service.EnderecoService;
 import com.br.domain.service.OrgaoService;
 import com.br.domain.service.spec.TemplateSpec;
 
@@ -31,9 +29,6 @@ public class OrgaoController {
 
 	@Autowired
     private OrgaoService orgaoService;
-
-    @Autowired
-    private EnderecoService enderecoService;
     
     @Autowired
     private OrgaoModelMapper orgaoModelMapper;
@@ -55,10 +50,6 @@ public class OrgaoController {
     @PostMapping("/cadastrar")
     public ResponseEntity<OrgaoModel> cadastrar(@RequestBody @Valid OrgaoModelInput orgaoModelInput) {
         Orgao orgao = orgaoModelMapeerBack.toModel(orgaoModelInput);
-        
-        Endereco endereco = enderecoService.findById(orgaoModelInput.getEnderecoId());
-        orgao.setEnderecoId(endereco);
-        
         orgao.setActive(true);
         OrgaoModel orgaoModel = orgaoModelMapper.toModel(orgaoService.save(orgao));
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);

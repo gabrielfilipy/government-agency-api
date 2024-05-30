@@ -14,7 +14,7 @@ public class OrgaoModelInput {
 	private String nome;
 	
 	@NotNull
-    private Long enderecoId;
+    private Endereco endereco;
 	
     private boolean active;
 

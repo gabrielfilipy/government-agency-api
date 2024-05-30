@@ -2,6 +2,8 @@ package com.br.api.v1.model.input;
 
 import javax.validation.constraints.NotNull;
 
+import com.br.api.v1.model.CidadeModel;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,8 +11,8 @@ import lombok.Setter;
 @Setter
 public class EnderecoModelInput {
 	@NotNull
-    private Long estadoId;
+    private String cep;
     
     @NotNull
-    private Long cidadeId;
+    private CidadeModel cidade;
 }

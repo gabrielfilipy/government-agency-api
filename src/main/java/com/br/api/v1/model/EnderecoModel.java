@@ -10,7 +10,6 @@ import lombok.Setter;
 @Setter
 public class EnderecoModel {
 	
-	private Long enderecoId;
-	private Estado estadoId;
-	private Cidade cidadeId;
+	private String cep;
+	private Cidade cidade;
 }

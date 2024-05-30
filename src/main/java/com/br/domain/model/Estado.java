@@ -6,15 +6,14 @@ import lombok.*;
 
 @Getter
 @Setter
-@Table(name = "TBL_ESTADO")
+@Table(name = "ESTADO")
 @Entity
 public class Estado {
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long estadoId;
+	private Long Id;
 	
-	@NotBlank(message = "Nao pode ficar em branco")
 	@NotNull
 	@Column(name = "nome")
 	private String nome;

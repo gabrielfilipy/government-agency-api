@@ -6,16 +6,17 @@ import lombok.*;
 
 @Getter
 @Setter
-@Table(name = "TBL_CIDADE")
+@Table(name = "CIDADE")
 @Entity
 public class Cidade {
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long cidadeId;
+	private Long Id;
 	
-	@NotBlank(message = "Nao pode ficar em branco")
 	@NotNull
-	@Column(name = "nome")
 	private String nome;
+	
+	@ManyToOne
+	private Estado estado;
 }

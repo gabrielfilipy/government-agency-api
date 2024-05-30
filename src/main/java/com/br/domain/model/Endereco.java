@@ -1,23 +1,18 @@
 package com.br.domain.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+
 import lombok.*;
 
-@Getter
-@Setter
-@Table(name = "TBL_ENDERECO")
-@Entity
+@Data
+@Embeddable
 public class Endereco {
-
-	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long enderecoId;
 	
-	@OneToOne
-	@JoinColumn(name = "estado_id")
-	private Estado estadoId;
+	@NotNull
+	private String cep;
 	
-	@OneToOne
-	@JoinColumn(name = "cidade_id")
-	private Cidade cidadeId;
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "endereco_cidade_id")
+	private Cidade cidade;
 }

@@ -8,7 +8,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@Table(name = "TBL_ORGAO")
+@Table(name = "ORGAO")
 @Entity
 public class Orgao implements Serializable{
 	
@@ -18,14 +18,13 @@ public class Orgao implements Serializable{
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
 	private Long orgaoId;
 	
-	@NotBlank(message = "Nao pode ficar em branco")
 	@NotNull
 	@Column(name = "nome")
 	private String nome;
 	
 	private boolean active;
 	
-	@ManyToOne
-	@JoinColumn(name = "endereco_id")
-	private Endereco enderecoId;
+	@Embedded
+	@Column(name = "endereco")
+	private Endereco endereco;
 }
