@@ -7,7 +7,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-
 import com.br.domain.exception.EntidadeNaoExisteException;
 import com.br.domain.model.Orgao;
 import com.br.domain.repository.OrgaoRepository;
@@ -25,10 +24,14 @@ public class OrgaoServiceImpl implements OrgaoService{
 		return salvar;
 	}
 
-
 	@Override
 	public Page<Orgao> buscarTodos(Specification<Orgao> spec, Pageable pageable) {
 		return orgaoRepository.findAll(spec, pageable);
+	}
+
+	@Override
+	public Page<Orgao> buscarOrgao(Long endereco, Pageable pageable) {
+		return orgaoRepository.buscarOrgaoDoFiltro(endereco, pageable);
 	}
 
 	@Override
