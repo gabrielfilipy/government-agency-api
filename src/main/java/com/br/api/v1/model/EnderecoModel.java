@@ -1,15 +1,10 @@
 package com.br.api.v1.model;
 
-import com.br.domain.model.Cidade;
-import com.br.domain.model.Estado;
+import com.br.domain.model.Endereco;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
+@Data
 public class EnderecoModel {
-	
-	private String cep;
-	private Cidade cidade;
+
+    private String cep;
 }

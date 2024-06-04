@@ -1,18 +1,14 @@
 package com.br.api.v1.model.input;
 
-import javax.validation.constraints.NotNull;
-
 import com.br.api.v1.model.CidadeModel;
+import lombok.Data;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.io.Serializable;
 
-@Getter
-@Setter
+@Data
 public class EnderecoModelInput {
-	@NotNull
+
     private String cep;
-    
-    @NotNull
+
     private CidadeModel cidade;
 }

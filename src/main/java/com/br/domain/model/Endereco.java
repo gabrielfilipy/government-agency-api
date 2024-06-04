@@ -1,18 +1,16 @@
 package com.br.domain.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-
 import lombok.*;
 
 @Data
 @Embeddable
 public class Endereco {
-	
-	@NotNull
+
+	@Column(name = "endereco_cep")
 	private String cep;
-	
-	@ManyToOne(fetch = FetchType.LAZY)
+
+	@ManyToOne
 	@JoinColumn(name = "endereco_cidade_id")
 	private Cidade cidade;
 }

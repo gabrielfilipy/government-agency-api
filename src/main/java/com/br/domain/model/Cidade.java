@@ -4,19 +4,19 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 import lombok.*;
 
-@Getter
-@Setter
-@Table(name = "CIDADE")
+@Data
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@Table(name = "TBL_CIDADE")
 @Entity
 public class Cidade {
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long Id;
-	
-	@NotNull
+	private Long cidadeId;
+
+	@Column(name = "nome")
 	private String nome;
-	
+
 	@ManyToOne
 	private Estado estado;
 }

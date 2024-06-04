@@ -12,10 +12,10 @@ public class OrgaoModelInput {
 	@NotBlank
 	@NotNull
 	private String nome;
-	
+
+	private boolean active;
+
 	@NotNull
-    private Endereco endereco;
-	
-    private boolean active;
+	private Endereco endereco;
 
 }

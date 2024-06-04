@@ -9,15 +9,14 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import com.br.api.v1.mapper.OrgaoModelMapper;
 import com.br.api.v1.mapper.OrgaoModelMapeerBack;
 import com.br.api.v1.model.OrgaoModel;
 import com.br.api.v1.model.input.OrgaoActiveModelInput;
 import com.br.api.v1.model.input.OrgaoModelInput;
-import com.br.domain.model.Endereco;
 import com.br.domain.model.Orgao;
 import com.br.domain.service.OrgaoService;
-import com.br.domain.service.spec.TemplateSpec;
 
 import io.swagger.annotations.Api;
 
@@ -41,16 +40,16 @@ public class OrgaoController {
         return ResponseEntity.status(HttpStatus.OK).body(orgaoModelMapper.toModel(orgaoService.findById(id)));
     }
 
-    @GetMapping("/listar")
-    public ResponseEntity<Page<Orgao>> getDepartamentos(TemplateSpec.OrgaoSpec spec,
-                                                        @PageableDefault(page = 0, size = 5) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(orgaoService.buscarTodos(spec, pageable));
+    @GetMapping("/filtro")
+    public ResponseEntity<Page<?>> findAll(Long endereco,
+                                           @PageableDefault(page = 0, size = 10) Pageable pageable) {
+        return ResponseEntity.status (HttpStatus.OK).body(orgaoService.buscarOrgao(endereco, pageable));
     }
-    
+
     @PostMapping("/cadastrar")
     public ResponseEntity<OrgaoModel> cadastrar(@RequestBody @Valid OrgaoModelInput orgaoModelInput) {
         Orgao orgao = orgaoModelMapeerBack.toModel(orgaoModelInput);
-        orgao.setActive(true);
+
         OrgaoModel orgaoModel = orgaoModelMapper.toModel(orgaoService.save(orgao));
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);
     }
