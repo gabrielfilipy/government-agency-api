@@ -5,6 +5,14 @@ spring:
     url: jdbc:mysql://localhost:3306/government-agency-api?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: root
     password:
+  rabbitmq:
+    host: jackal.rmq.cloudamqp.com
+    port: 5672
+    username: hdceslmj
+    password: 8dO_bxocIUN__2BNmAaNXmxcRZiqATC_
+    virtual-host: hdceslmj
+    ssl:
+      enable: false
   jpa:
     hibernate:
       ddl-auto: update
