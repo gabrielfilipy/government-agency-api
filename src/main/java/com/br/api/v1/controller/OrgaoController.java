@@ -2,6 +2,8 @@ package com.br.api.v1.controller;
 
 import javax.validation.Valid;
 
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,6 +36,9 @@ public class OrgaoController {
     
     @Autowired
     private OrgaoModelMapeerBack orgaoModelMapeerBack;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
     
     @GetMapping("/buscar/{id}")
     public ResponseEntity<OrgaoModel> getUser(@PathVariable(name = "id") Long id) {
@@ -51,6 +56,12 @@ public class OrgaoController {
         Orgao orgao = orgaoModelMapeerBack.toModel(orgaoModelInput);
 
         OrgaoModel orgaoModel = orgaoModelMapper.toModel(orgaoService.save(orgao));
+
+        String routingKey = ("Organ-created");
+        Message message = new Message(orgaoModel.getOrgaoId().toString().getBytes());
+        // essa message será usada caso queira buscar somente o Id em byte.
+        rabbitTemplate.convertAndSend(routingKey, orgaoModel);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);
     }
     
