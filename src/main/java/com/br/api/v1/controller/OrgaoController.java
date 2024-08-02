@@ -1,5 +1,7 @@
 package com.br.api.v1.controller;
 
+import java.util.UUID;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +38,12 @@ public class OrgaoController {
     private OrgaoModelMapeerBack orgaoModelMapeerBack;
     
     @GetMapping("/buscar/{id}")
-    public ResponseEntity<OrgaoModel> getUser(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<OrgaoModel> getUser(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(orgaoModelMapper.toModel(orgaoService.findById(id)));
     }
 
     @GetMapping("/filtro")
-    public ResponseEntity<Page<?>> findAll(Long endereco,
+    public ResponseEntity<Page<?>> findAll(UUID endereco,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable) {
         return ResponseEntity.status (HttpStatus.OK).body(orgaoService.buscarOrgao(endereco, pageable));
     }
@@ -56,14 +58,14 @@ public class OrgaoController {
     
     @PatchMapping("/ativar-desativar/{id}")
     public ResponseEntity<OrgaoModel> activateDepartamento(@RequestBody OrgaoActiveModelInput departamentoActiveModelInput,
-                                                           @PathVariable(name = "id") Long id) {
+                                                           @PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 orgaoModelMapper.toModel(orgaoService.activeOrgao(id, departamentoActiveModelInput.isActive())));
     }
 
     @PutMapping("/desativar/{id}")
     public ResponseEntity<OrgaoModel> deactivateDepartamento(@RequestBody OrgaoActiveModelInput departamentoActiveModelInput,
-                                                             @PathVariable(name = "id") Long id) {
+                                                             @PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModelMapper.toModel(orgaoService.desactiveOrgao(id)));
     }
 }

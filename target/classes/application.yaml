@@ -2,9 +2,10 @@ server:
   port: 8089
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/government-agency-api?createDatabaseIfNotExist=true&serverTimezone=UTC
-    username: root
-    password:
+    url: jdbc:postgresql://localhost:5432/government-agency-api
+    username: postgres
+    password: admin
   jpa:
     hibernate:
       ddl-auto: update
+      dialect: org.hibernate.dialect.PostgreSQLDialect

@@ -15,7 +15,7 @@ public class OrgaoRepositoryImpl implements OrgaoRepositoryQuery {
     @PersistenceContext
     private EntityManager manager;
 
-    private Predicate[] criarRestricoes(Long endereco, CriteriaBuilder builder, Root<Orgao> root){
+    private Predicate[] criarRestricoes(UUID endereco, CriteriaBuilder builder, Root<Orgao> root){
         List<Predicate> predicates = new ArrayList<>();
         Join<Orgao, Endereco> estado = root.join("endereco");
 
@@ -34,7 +34,7 @@ public class OrgaoRepositoryImpl implements OrgaoRepositoryQuery {
         query.setMaxResults(totalDeRegistrosPorPagina);
     }
 
-    private Long totalElementos(Long endereco){
+    private Long totalElementos(UUID endereco){
     CriteriaBuilder builder = manager.getCriteriaBuilder();
     CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
     Root<Orgao> root = criteria.from(Orgao.class);
@@ -45,7 +45,7 @@ public class OrgaoRepositoryImpl implements OrgaoRepositoryQuery {
     }
 
     @Override
-    public Page<Orgao> buscarOrgaoDoFiltro(Long endereco, Pageable pageable) {
+    public Page<Orgao> buscarOrgaoDoFiltro(UUID endereco, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Orgao> criteria = builder.createQuery(Orgao.class);
         Root<Orgao> root = criteria.from(Orgao.class);

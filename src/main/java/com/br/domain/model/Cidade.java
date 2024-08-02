@@ -1,5 +1,7 @@
 package com.br.domain.model;
 
+import java.util.UUID;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import lombok.*;
@@ -11,8 +13,8 @@ import lombok.*;
 public class Cidade {
 
 	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long cidadeId;
+	@GeneratedValue( strategy = GenerationType.AUTO)
+	private UUID cidadeId;
 
 	@Column(name = "nome")
 	private String nome;
