@@ -1,6 +1,7 @@
 package com.br.domain.service.impl;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -30,12 +31,12 @@ public class OrgaoServiceImpl implements OrgaoService{
 	}
 
 	@Override
-	public Page<Orgao> buscarOrgao(Long endereco, Pageable pageable) {
+	public Page<Orgao> buscarOrgao(UUID endereco, Pageable pageable) {
 		return orgaoRepository.buscarOrgaoDoFiltro(endereco, pageable);
 	}
 
 	@Override
-	public Orgao findById(Long id) {
+	public Orgao findById(UUID id) {
 		Optional<Orgao> orgao = orgaoRepository.findById(id);
 		if(orgao.isEmpty()) {
 			throw new EntidadeNaoExisteException("Esse orgão não existe!");
@@ -44,7 +45,7 @@ public class OrgaoServiceImpl implements OrgaoService{
 	}
 
 	@Override
-	public Orgao activeOrgao(Long id, Boolean active) {
+	public Orgao activeOrgao(UUID id, Boolean active) {
 		Orgao orgao = orgaoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("O orgão informado não existe! "));
 		orgao.setActive(active);
@@ -52,7 +53,7 @@ public class OrgaoServiceImpl implements OrgaoService{
 	}
 
 	@Override
-	public Orgao desactiveOrgao(Long id) {
+	public Orgao desactiveOrgao(UUID id) {
 		Orgao orgao = orgaoRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("O orgão informado não existe! "));
 		orgao.setActive(false);

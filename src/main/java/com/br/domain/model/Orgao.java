@@ -1,6 +1,7 @@
 package com.br.domain.model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -15,8 +16,8 @@ public class Orgao implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue( strategy = GenerationType.IDENTITY)
-	private Long orgaoId;
+	@GeneratedValue( strategy = GenerationType.AUTO)
+	private UUID orgaoId;
 
 	@NotNull
 	@Column(name = "nome")

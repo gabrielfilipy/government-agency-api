@@ -4,11 +4,12 @@ import com.br.domain.model.Estado;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 @Data
 public class CidadeModel{
 
-    private Long id;
+    private UUID id;
 
     private EstadoModel estado;
 }
