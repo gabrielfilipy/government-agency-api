@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +37,10 @@ public class OrgaoController {
     
     @Autowired
     private OrgaoModelMapeerBack orgaoModelMapeerBack;
-    
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
     @GetMapping("/buscar/{id}")
     public ResponseEntity<OrgaoModel> getUser(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(orgaoModelMapper.toModel(orgaoService.findById(id)));
@@ -53,6 +57,9 @@ public class OrgaoController {
         Orgao orgao = orgaoModelMapeerBack.toModel(orgaoModelInput);
 
         OrgaoModel orgaoModel = orgaoModelMapper.toModel(orgaoService.save(orgao));
+
+        rabbitTemplate.convertAndSend("government-department", orgaoModel);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);
     }
     
