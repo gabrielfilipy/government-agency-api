@@ -15,8 +15,13 @@ import org.springframework.context.annotation.Configuration;
 public class RabbitMQConfig {
 
     @Bean
-    public Queue userDocumentQueue() {
+    public Queue governmentDepartmentQueue() {
         return new Queue("government-department");
+    }
+
+    @Bean
+    public Queue governmentDocumentQUeue() {
+        return new Queue("government-document");
     }
 
     @Bean
