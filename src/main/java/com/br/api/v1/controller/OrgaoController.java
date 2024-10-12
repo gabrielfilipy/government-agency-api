@@ -59,6 +59,7 @@ public class OrgaoController {
         OrgaoModel orgaoModel = orgaoModelMapper.toModel(orgaoService.save(orgao));
 
         rabbitTemplate.convertAndSend("government-department", orgaoModel);
+        rabbitTemplate.convertAndSend("government-document", orgaoModel);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);
     }
