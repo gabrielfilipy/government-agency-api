@@ -10,14 +10,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import com.br.domain.exception.EntidadeNaoExisteException;
 import com.br.domain.model.Orgao;
-import com.br.domain.repository.OrgaoRepository;
-import com.br.domain.service.OrgaoService;
+import com.br.domain.repository.OrganizationRepository;
+import com.br.domain.service.OrganizationService;
 
 @Service
-public class OrgaoServiceImpl implements OrgaoService{
+public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
-	private OrgaoRepository orgaoRepository;
+	private OrganizationRepository orgaoRepository;
 	
 	@Override
 	public Orgao save(Orgao orgao) {
@@ -31,8 +31,8 @@ public class OrgaoServiceImpl implements OrgaoService{
 	}
 
 	@Override
-	public Page<Orgao> buscarOrgao(UUID endereco, Pageable pageable) {
-		return orgaoRepository.buscarOrgaoDoFiltro(endereco, pageable);
+	public Page<Orgao> filter(String name, Pageable pageable) {
+		return orgaoRepository.filter(name, pageable);
 	}
 
 	@Override

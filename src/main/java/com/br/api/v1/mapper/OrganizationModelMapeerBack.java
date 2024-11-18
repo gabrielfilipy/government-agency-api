@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import com.br.domain.model.Orgao;
 
 @Component
-public class OrgaoModelMapeerBack {
+public class OrganizationModelMapeerBack {
 
 	@Autowired
 	private ModelMapper modelMapper;

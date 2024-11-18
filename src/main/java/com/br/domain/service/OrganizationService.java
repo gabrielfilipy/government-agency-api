@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import com.br.domain.model.Orgao;
 
-public interface OrgaoService {
+public interface OrganizationService {
 
 	Page<Orgao> buscarTodos(Specification<Orgao> spec, Pageable pageable);
-	Page<Orgao> buscarOrgao(UUID endereco, Pageable pageable);
+	Page<Orgao> filter(String name, Pageable pageable);
 	Orgao save(Orgao orgao);
 	Orgao findById(UUID id);
 	Orgao activeOrgao(UUID id, Boolean active);

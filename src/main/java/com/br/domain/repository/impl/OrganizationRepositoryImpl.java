@@ -1,26 +1,24 @@
 package com.br.domain.repository.impl;
-import com.br.domain.model.Endereco;
-import com.br.domain.model.Orgao;
-import com.br.domain.repository.OrgaoRepositoryQuery;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.Pageable;
+
+import com.br.domain.model.*;
+import com.br.domain.repository.OrganizationRepositoryQuery;
+import org.springframework.data.domain.*;
 
 import javax.persistence.*;
 import javax.persistence.criteria.*;
 import java.util.*;
 
-public class OrgaoRepositoryImpl implements OrgaoRepositoryQuery {
+public class OrganizationRepositoryImpl implements OrganizationRepositoryQuery {
 
     @PersistenceContext
     private EntityManager manager;
 
-    private Predicate[] criarRestricoes(UUID endereco, CriteriaBuilder builder, Root<Orgao> root){
+    private Predicate[] criarRestricoes(String name, CriteriaBuilder builder, Root<Orgao> root){
         List<Predicate> predicates = new ArrayList<>();
         Join<Orgao, Endereco> estado = root.join("endereco");
 
-        if(endereco != null){
-            predicates.add(builder.equal(estado.get("enderecoId"), endereco));
+        if(name != null){
+            predicates.add(builder.like(root.get("nome"), "%" + name + "%"));
         }
 
         return predicates.toArray(new Predicate[predicates.size()]);
@@ -34,25 +32,27 @@ public class OrgaoRepositoryImpl implements OrgaoRepositoryQuery {
         query.setMaxResults(totalDeRegistrosPorPagina);
     }
 
-    private Long totalElementos(UUID endereco){
+    private Long totalElementos(String name) {
     CriteriaBuilder builder = manager.getCriteriaBuilder();
     CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
     Root<Orgao> root = criteria.from(Orgao.class);
-    Predicate[] predicates = criarRestricoes(endereco, builder, root);
+    Predicate[] predicates = criarRestricoes(name, builder, root);
     criteria.where(predicates);
     criteria.select(builder.count(root));
     return manager.createQuery(criteria).getSingleResult();
     }
 
     @Override
-    public Page<Orgao> buscarOrgaoDoFiltro(UUID endereco, Pageable pageable) {
+    public Page<Orgao> filter(String name, Pageable pageable) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Orgao> criteria = builder.createQuery(Orgao.class);
         Root<Orgao> root = criteria.from(Orgao.class);
-        Predicate[] predicates = criarRestricoes(endereco, builder, root);
+        Predicate[] predicates = criarRestricoes(name, builder, root);
+        criteria.orderBy(builder.asc(root.get("nome")));
         criteria.where(predicates);
         TypedQuery<Orgao> query = manager.createQuery(criteria);
         adicionarRestricoesDePaginacao(query, pageable);
-        return new PageImpl<>(query.getResultList(), pageable, totalElementos(endereco));
+        return new PageImpl<>(query.getResultList(), pageable, totalElementos(name));
     }
+
 }

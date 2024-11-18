@@ -27,4 +27,5 @@ public class Orgao implements Serializable{
 
 	@Embedded
 	private Endereco endereco;
+
 }

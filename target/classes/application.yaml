@@ -1,5 +1,7 @@
 server:
   port: 8089
+  servlet:
+    context-path: /organization
 spring:
   datasource:
     url: jdbc:postgresql://localhost:5432/government-agency-api

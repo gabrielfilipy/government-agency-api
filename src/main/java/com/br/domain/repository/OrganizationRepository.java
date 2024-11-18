@@ -10,8 +10,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface OrgaoRepository extends JpaRepository<Orgao, UUID>,
-        JpaSpecificationExecutor<Orgao>, OrgaoRepositoryQuery {
+public interface OrganizationRepository extends JpaRepository<Orgao, UUID>,
+        JpaSpecificationExecutor<Orgao>, OrganizationRepositoryQuery {
 
     @Query("SELECT m FROM Orgao m WHERE m.endereco = :endereco")
     Optional<Orgao> buscarOrgaoPage(@Param("endereco") UUID endereco);

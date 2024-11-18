@@ -13,66 +13,58 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.br.api.v1.mapper.OrgaoModelMapper;
-import com.br.api.v1.mapper.OrgaoModelMapeerBack;
+import com.br.api.v1.mapper.OrganizationModelMapper;
+import com.br.api.v1.mapper.OrganizationModelMapeerBack;
 import com.br.api.v1.model.OrgaoModel;
 import com.br.api.v1.model.input.OrgaoActiveModelInput;
 import com.br.api.v1.model.input.OrgaoModelInput;
 import com.br.domain.model.Orgao;
-import com.br.domain.service.OrgaoService;
+import com.br.domain.service.OrganizationService;
 
 import io.swagger.annotations.Api;
 
-@Api(tags = "orgao")
+@Api(tags = "Organization")
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/v1/orgao")
-public class OrgaoController {
+@RequestMapping("/v1")
+public class OrganizationController {
 
 	@Autowired
-    private OrgaoService orgaoService;
+    private OrganizationService organizationService;
     
     @Autowired
-    private OrgaoModelMapper orgaoModelMapper;
+    private OrganizationModelMapper organizationModelMapper;
     
     @Autowired
-    private OrgaoModelMapeerBack orgaoModelMapeerBack;
+    private OrganizationModelMapeerBack organizationModelMapeerBack;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/search-for-id/{id}")
     public ResponseEntity<OrgaoModel> getUser(@PathVariable(name = "id") UUID id) {
-        return ResponseEntity.status(HttpStatus.OK).body(orgaoModelMapper.toModel(orgaoService.findById(id)));
+        return ResponseEntity.status(HttpStatus.OK).body(organizationModelMapper.toModel(organizationService.findById(id)));
     }
 
-    @GetMapping("/filtro")
-    public ResponseEntity<Page<?>> findAll(UUID endereco,
+    @GetMapping("/filter")
+    public ResponseEntity<Page<?>> findAll(String name,
                                            @PageableDefault(page = 0, size = 10) Pageable pageable) {
-        return ResponseEntity.status (HttpStatus.OK).body(orgaoService.buscarOrgao(endereco, pageable));
+        return ResponseEntity.status (HttpStatus.OK).body(organizationService.filter(name, pageable));
     }
 
-    @PostMapping("/cadastrar")
+    @PostMapping("/registry")
     public ResponseEntity<OrgaoModel> cadastrar(@RequestBody @Valid OrgaoModelInput orgaoModelInput) {
-        Orgao orgao = orgaoModelMapeerBack.toModel(orgaoModelInput);
-
-        OrgaoModel orgaoModel = orgaoModelMapper.toModel(orgaoService.save(orgao));
-
+        Orgao orgao = organizationModelMapeerBack.toModel(orgaoModelInput);
+        OrgaoModel orgaoModel = organizationModelMapper.toModel(organizationService.save(orgao));
         rabbitTemplate.convertAndSend("government-department", orgaoModel);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);
     }
     
-    @PatchMapping("/ativar-desativar/{id}")
+    @PatchMapping("/activate-deactivate/{id}")
     public ResponseEntity<OrgaoModel> activateDepartamento(@RequestBody OrgaoActiveModelInput departamentoActiveModelInput,
                                                            @PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                orgaoModelMapper.toModel(orgaoService.activeOrgao(id, departamentoActiveModelInput.isActive())));
+                organizationModelMapper.toModel(organizationService.activeOrgao(id, departamentoActiveModelInput.isActive())));
     }
 
-    @PutMapping("/desativar/{id}")
-    public ResponseEntity<OrgaoModel> deactivateDepartamento(@RequestBody OrgaoActiveModelInput departamentoActiveModelInput,
-                                                             @PathVariable(name = "id") UUID id) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModelMapper.toModel(orgaoService.desactiveOrgao(id)));
-    }
 }
