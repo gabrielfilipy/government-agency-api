@@ -4,7 +4,7 @@ server:
     context-path: /organization
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/government-agency-api
+    url: jdbc:postgresql://localhost:5432/organization-api
     username: postgres
     password: admin
 

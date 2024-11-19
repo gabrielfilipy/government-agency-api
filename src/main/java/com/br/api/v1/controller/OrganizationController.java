@@ -4,21 +4,17 @@ import java.util.UUID;
 
 import javax.validation.Valid;
 
+import com.br.domain.model.Organization;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
-import com.br.api.v1.mapper.OrganizationModelMapper;
-import com.br.api.v1.mapper.OrganizationModelMapeerBack;
-import com.br.api.v1.model.OrgaoModel;
-import com.br.api.v1.model.input.OrgaoActiveModelInput;
-import com.br.api.v1.model.input.OrgaoModelInput;
-import com.br.domain.model.Orgao;
+import com.br.api.v1.mapper.*;
+import com.br.api.v1.model.OrganizationModel;
+import com.br.api.v1.model.input.*;
 import com.br.domain.service.OrganizationService;
 
 import io.swagger.annotations.Api;
@@ -42,7 +38,7 @@ public class OrganizationController {
     private RabbitTemplate rabbitTemplate;
 
     @GetMapping("/search-for-id/{id}")
-    public ResponseEntity<OrgaoModel> getUser(@PathVariable(name = "id") UUID id) {
+    public ResponseEntity<OrganizationModel> getUser(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(organizationModelMapper.toModel(organizationService.findById(id)));
     }
 
@@ -53,18 +49,18 @@ public class OrganizationController {
     }
 
     @PostMapping("/registry")
-    public ResponseEntity<OrgaoModel> cadastrar(@RequestBody @Valid OrgaoModelInput orgaoModelInput) {
-        Orgao orgao = organizationModelMapeerBack.toModel(orgaoModelInput);
-        OrgaoModel orgaoModel = organizationModelMapper.toModel(organizationService.save(orgao));
-        rabbitTemplate.convertAndSend("government-department", orgaoModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(orgaoModel);
+    public ResponseEntity<OrganizationModel> cadastrar(@RequestBody @Valid OrganizationModelInput organizationModelInput) {
+        Organization organization = organizationModelMapeerBack.toModel(organizationModelInput);
+        OrganizationModel organizationModel = organizationModelMapper.toModel(organizationService.save(organization));
+        rabbitTemplate.convertAndSend("government-department", organizationModel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(organizationModel);
     }
     
     @PatchMapping("/activate-deactivate/{id}")
-    public ResponseEntity<OrgaoModel> activateDepartamento(@RequestBody OrgaoActiveModelInput departamentoActiveModelInput,
-                                                           @PathVariable(name = "id") UUID id) {
+    public ResponseEntity<OrganizationModel> activateDepartamento(@RequestBody OrganizationActiveModelInput departamentoActiveModelInput,
+                                                                  @PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
-                organizationModelMapper.toModel(organizationService.activeOrgao(id, departamentoActiveModelInput.isActive())));
+                organizationModelMapper.toModel(organizationService.activeOrDesactived(id, departamentoActiveModelInput.isActive())));
     }
 
 }

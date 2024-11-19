@@ -1,19 +1,18 @@
 package com.br.domain.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import com.br.domain.model.Organization;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import com.br.domain.model.Orgao;
-import java.util.Optional;
-import java.util.UUID;
+
+import java.util.*;
 
 @Repository
-public interface OrganizationRepository extends JpaRepository<Orgao, UUID>,
-        JpaSpecificationExecutor<Orgao>, OrganizationRepositoryQuery {
+public interface OrganizationRepository extends JpaRepository<Organization, UUID>,
+        JpaSpecificationExecutor<Organization>, OrganizationRepositoryQuery {
 
-    @Query("SELECT m FROM Orgao m WHERE m.endereco = :endereco")
-    Optional<Orgao> buscarOrgaoPage(@Param("endereco") UUID endereco);
+    @Query("SELECT org FROM Organization org WHERE org.address = :id")
+    Optional<Organization> buscarOrgaoPage(@Param("id") UUID id);
 
 }

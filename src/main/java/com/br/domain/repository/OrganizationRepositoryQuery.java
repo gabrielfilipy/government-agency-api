@@ -1,10 +1,10 @@
 package com.br.domain.repository;
 
-import com.br.domain.model.Orgao;
+import com.br.domain.model.Organization;
 import org.springframework.data.domain.*;
 
 public interface OrganizationRepositoryQuery {
 
-    Page<Orgao> filter(String name, Pageable pageable);
+    Page<Organization> filter(String name, Pageable pageable);
 
 }

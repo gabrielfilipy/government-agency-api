@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.br.DepartamentoApiApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.462 s - in com.br.DepartamentoApiApplicationTests
