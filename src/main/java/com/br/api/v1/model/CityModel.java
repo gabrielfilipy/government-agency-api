@@ -1,13 +1,17 @@
 package com.br.api.v1.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
 
 import java.util.UUID;
 
-@Data
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@Getter
+@Setter
 public class CityModel {
 
     private UUID id;
+    private String name;
     private StateModel state;
 
 }

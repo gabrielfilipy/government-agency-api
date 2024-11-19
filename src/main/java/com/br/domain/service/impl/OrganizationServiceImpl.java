@@ -24,6 +24,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public Organization save(Organization organization) {
 		rabbitTemplate.convertAndSend("government-department", organization);
+		organization.setActive(true);
 		return organizationRepository.save(organization);
 	}
 

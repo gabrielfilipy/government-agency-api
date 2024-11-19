@@ -1,13 +1,16 @@
 package com.br.api.v1.model.input;
 
-import com.br.api.v1.model.CityModel;
 import lombok.*;
+
+import javax.validation.constraints.*;
+import java.util.UUID;
 
 @Getter
 @Setter
 public class AddressModelInput {
 
+    private UUID id;
     private String cep;
-    private CityModel city;
+    private CityModelInput city;
 
 }
