@@ -52,7 +52,7 @@ public class OrganizationController {
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationModel);
     }
     
-    @PatchMapping("/activate-deactivate/{id}")
+    @PatchMapping("/activate-desactivate/{id}")
     public ResponseEntity<OrganizationModel> activateDeactivate(@RequestBody OrganizationActiveModelInput departamentoActiveModelInput,
                                                                   @PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.CREATED).body(
