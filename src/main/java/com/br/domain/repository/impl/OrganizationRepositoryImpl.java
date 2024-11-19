@@ -13,7 +13,7 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryQuery {
     @PersistenceContext
     private EntityManager manager;
 
-    private Predicate[] criarRestricoes(String name, CriteriaBuilder builder, Root<Organization> root){
+    private Predicate[] createRestriction(String name, CriteriaBuilder builder, Root<Organization> root){
         List<Predicate> predicates = new ArrayList<>();
         Join<Organization, Address> estado = root.join("address");
 
@@ -24,7 +24,7 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryQuery {
         return predicates.toArray(new Predicate[predicates.size()]);
     }
 
-    private void adicionarRestricoesDePaginacao(TypedQuery<Organization> query, Pageable pageable){
+    private void addRestrictionPagination(TypedQuery<Organization> query, Pageable pageable){
         int paginaAtual = pageable.getPageNumber();
         int totalDeRegistrosPorPagina = pageable.getPageSize();
         int primeiroRegistroDaPagina = paginaAtual * totalDeRegistrosPorPagina;
@@ -32,11 +32,11 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryQuery {
         query.setMaxResults(totalDeRegistrosPorPagina);
     }
 
-    private Long totalElementos(String name) {
+    private Long totalElements(String name) {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
         Root<Organization> root = criteria.from(Organization.class);
-        Predicate[] predicates = criarRestricoes(name, builder, root);
+        Predicate[] predicates = createRestriction(name, builder, root);
         criteria.where(predicates);
         criteria.select(builder.count(root));
         return manager.createQuery(criteria).getSingleResult();
@@ -47,12 +47,12 @@ public class OrganizationRepositoryImpl implements OrganizationRepositoryQuery {
         CriteriaBuilder builder = manager.getCriteriaBuilder();
         CriteriaQuery<Organization> criteria = builder.createQuery(Organization.class);
         Root<Organization> root = criteria.from(Organization.class);
-        Predicate[] predicates = criarRestricoes(name, builder, root);
+        Predicate[] predicates = createRestriction(name, builder, root);
         criteria.orderBy(builder.asc(root.get("name")));
         criteria.where(predicates);
         TypedQuery<Organization> query = manager.createQuery(criteria);
-        adicionarRestricoesDePaginacao(query, pageable);
-        return new PageImpl<>(query.getResultList(), pageable, totalElementos(name));
+        addRestrictionPagination(query, pageable);
+        return new PageImpl<>(query.getResultList(), pageable, totalElements(name));
     }
 
 }

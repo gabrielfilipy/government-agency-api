@@ -2,7 +2,9 @@ package com.br.domain.service.impl;
 
 import java.util.*;
 
+import com.br.domain.exception.OrganizationNotFoundException;
 import com.br.domain.model.Organization;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
@@ -14,23 +16,27 @@ import com.br.domain.service.OrganizationService;
 public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
-	private OrganizationRepository orgaoRepository;
+	private OrganizationRepository organizationRepository;
+
+	@Autowired
+	private RabbitTemplate rabbitTemplate;
 	
 	@Override
 	public Organization save(Organization organization) {
-		return orgaoRepository.save(organization);
+		rabbitTemplate.convertAndSend("government-department", organization);
+		return organizationRepository.save(organization);
 	}
 
 	@Override
 	public Page<Organization> filter(String name, Pageable pageable) {
-		return orgaoRepository.filter(name, pageable);
+		return organizationRepository.filter(name, pageable);
 	}
 
 	@Override
 	public Organization findById(UUID id) {
-		Optional<Organization> organization = orgaoRepository.findById(id);
+		Optional<Organization> organization = organizationRepository.findById(id);
 		if(organization.isEmpty()) {
-			throw new NotFoundException("Esse orgão não existe!");
+			throw new OrganizationNotFoundException(id);
 		}
 		return organization.get();
 	}
@@ -39,7 +45,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	public Organization activeOrDesactived(UUID id, Boolean active) {
 		Organization organization = findById(id);
 		organization.setActive(active);
-		return orgaoRepository.save(organization);
+		return organizationRepository.save(organization);
 	}
 
 }

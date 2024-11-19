@@ -3,6 +3,9 @@ server:
   servlet:
     context-path: /organization
 spring:
+  spring:
+    application:
+      name: ORGANIZATION-API
   datasource:
     url: jdbc:postgresql://localhost:5432/organization-api
     username: postgres

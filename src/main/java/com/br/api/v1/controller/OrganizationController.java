@@ -34,9 +34,6 @@ public class OrganizationController {
     @Autowired
     private OrganizationModelMapeerBack organizationModelMapeerBack;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
-
     @GetMapping("/search-for-id/{id}")
     public ResponseEntity<OrganizationModel> getUser(@PathVariable(name = "id") UUID id) {
         return ResponseEntity.status(HttpStatus.OK).body(organizationModelMapper.toModel(organizationService.findById(id)));
@@ -52,7 +49,6 @@ public class OrganizationController {
     public ResponseEntity<OrganizationModel> cadastrar(@RequestBody @Valid OrganizationModelInput organizationModelInput) {
         Organization organization = organizationModelMapeerBack.toModel(organizationModelInput);
         OrganizationModel organizationModel = organizationModelMapper.toModel(organizationService.save(organization));
-        rabbitTemplate.convertAndSend("government-department", organizationModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(organizationModel);
     }
     
