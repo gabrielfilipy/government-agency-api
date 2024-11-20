@@ -16,7 +16,7 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public List<City> list() {
-        return cityRepository.findAll();
+        return cityRepository.findAllByOrderByNameAsc();
     }
 
 }

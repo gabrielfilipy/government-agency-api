@@ -4,11 +4,9 @@ import java.util.*;
 
 import com.br.domain.exception.OrganizationNotFoundException;
 import com.br.domain.model.Organization;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
-import com.br.api.exceptionhandler.exceptions.NotFoundException;
 import com.br.domain.repository.OrganizationRepository;
 import com.br.domain.service.OrganizationService;
 
@@ -17,13 +15,9 @@ public class OrganizationServiceImpl implements OrganizationService {
 
 	@Autowired
 	private OrganizationRepository organizationRepository;
-
-	@Autowired
-	private RabbitTemplate rabbitTemplate;
 	
 	@Override
 	public Organization save(Organization organization) {
-		rabbitTemplate.convertAndSend("government-department", organization);
 		organization.setActive(true);
 		return organizationRepository.save(organization);
 	}

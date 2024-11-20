@@ -5,7 +5,6 @@ import java.util.UUID;
 import javax.validation.Valid;
 
 import com.br.domain.model.Organization;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
 import org.springframework.data.web.PageableDefault;
