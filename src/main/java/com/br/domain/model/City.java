@@ -1,5 +1,6 @@
 package com.br.domain.model;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import javax.persistence.*;
@@ -10,7 +11,9 @@ import lombok.*;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Table(name = "TBL_CITY")
 @Entity
-public class City {
+public class City implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.AUTO)

@@ -3,7 +3,8 @@ package com.br.domain.model;
 import javax.persistence.*;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Embeddable
 public class Address {
 
