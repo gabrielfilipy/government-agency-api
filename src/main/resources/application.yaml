@@ -7,7 +7,7 @@ spring:
     application:
       name: ORGANIZATION-API
   datasource:
-    url: jdbc:postgresql://localhost:5432/organization-api
+    url: jdbc:postgresql://localhost:5432/organization-api?createDatabaseIfNotExist=true&serverTimezone=UTC
     username: postgres
     password: admin
 
