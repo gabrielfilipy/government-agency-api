@@ -8,11 +8,14 @@ import java.util.UUID;
 @Setter
 public class OrganizationModelInput {
 
-	private UUID id;
+	// private UUID id;
 
 	@NotBlank
 	@NotNull
 	private String name;
+
+	private boolean active;
+	
 	private AddressModelInput address;
 
 }

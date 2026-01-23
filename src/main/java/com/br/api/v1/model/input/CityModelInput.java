@@ -1,16 +1,20 @@
 package com.br.api.v1.model.input;
 
-import lombok.*;
-
 import javax.validation.constraints.*;
-import java.util.UUID;
+import lombok.*;
 
 @Getter
 @Setter
 public class CityModelInput {
 
-    @NotBlank
-    @NotNull
-    private UUID id;
+    // private UUID id;
 
+
+	@NotBlank
+	@NotNull
+	private String name;
+
+	@NotBlank
+	@NotNull
+	private StateModelInput state;
 }

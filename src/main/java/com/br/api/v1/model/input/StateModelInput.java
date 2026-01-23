@@ -10,8 +10,10 @@ import java.util.UUID;
 @Setter
 public class StateModelInput {
 
+    //private UUID id;
+
     @NotBlank
     @NotNull
-    private UUID id;
+    private String name;
 
 }
